@@ -1,12 +1,9 @@
-ASSETS_PATH = Dir.pwd + '/assets'
-
 class Character
   DEFAULTS = { speed: 60 }.freeze
 
   attr_accessor :sprite, :x, :y, :walls, :boxes
 
   def initialize
-
     build
   end
 
@@ -33,95 +30,95 @@ class Character
 
   def build
     self.sprite = Sprite.new(
-      ASSETS_PATH + '/character.png',
+      SPRITES_PATH,
       x: 0,
       y: 0,
       width: 39,
-      height: 59,
+      height: 58,
       clip_width: 38,
       animations: {
         walk_right: [
           {
-            x: 0, y: 0,
-            width: 38, height: 61,
+            x: 320, y: 244,
+            width: 38, height: 60,
             time: 250
           },
           {
-            x: 40, y: 0,
-            width: 38, height: 61,
+            x: 320, y: 128,
+            width: 38, height: 58.5,
             time: 250
           }
         ],
         walk_left: [
           {
-            x: 317, y: 0,
-            width: 38, height: 61,
+            x: 323, y: 185,
+            width: 38, height: 60,
             time: 250
           },
           {
-            x: 354, y: 0,
-            width: 38, height: 61,
+            x: 323, y: 302,
+            width: 38, height: 59,
             time: 250
           }
         ],
         walk_down: [
           {
-            x: 80, y: 0,
-            width: 38, height: 61,
+            x: 362, y: 247,
+            width: 38, height: 60,
             time: 250
           },
           {
-            x: 118, y: 0,
-            width: 38, height: 61,
+            x: 357, y: 360,
+            width: 38, height: 60,
             time: 250
           },
           {
-            x: 155, y: 0,
-            width: 38, height: 61,
+            x: 320, y: 361,
+            width: 38, height: 60,
             time: 250
           }
         ],
         walk_up: [
           {
-            x: 197, y: 0,
+            x: 383, y: 0,
             width: 38, height: 61,
             time: 250
           },
           {
-            x: 233, y: 0,
-            width: 38, height: 61,
+            x: 362, y: 128,
+            width: 38, height: 60,
             time: 250
           },
           {
-            x: 273, y: 0,
+            x: 362, y: 187,
             width: 38, height: 61,
             time: 250
-          }
+          },
         ],
         stand_right: [
           {
-            x: 0, y: 0,
-            width: 38, height: 61,
+            x: 320, y: 244,
+            width: 38, height: 60,
             time: 250
           }
         ],
         stand_left: [
           {
-            x: 354, y: 0,
-            width: 38, height: 61,
+            x: 323, y: 185,
+            width: 38, height: 60,
             time: 250
           }
         ],
         stand_down: [
           {
-            x: 80, y: 0,
-            width: 38, height: 61,
+            x: 362, y: 247,
+            width: 38, height: 60,
             time: 250
           }
         ],
         stand_up: [
           {
-            x: 197, y: 0,
+            x: 383, y: 0,
             width: 38, height: 61,
             time: 250
           }

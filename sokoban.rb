@@ -8,6 +8,8 @@ require 'active_support/core_ext/hash/keys'
 
 FLOORS = './floors'
 
+SPRITES_PATH = Dir.pwd + '/assets/sprites.png'
+
 ##
 # Window
 ##
