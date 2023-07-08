@@ -4,7 +4,7 @@
 
 Classic sokoban game written in Ruby with the awesome [ruby2d](http://www.ruby2d.com) framework.
 
-![ruby_sokoban](http://i.imgur.com/hkEXFZd.gif)
+![ruby_sokoban](http://i.imgur.com/NSEgKgT.gif)
 
 > Note: the low frame rate here is due to the GIF recording not the game itself.
 
