@@ -1,7 +1,7 @@
 class Character
   DEFAULTS = { speed: 60 }.freeze
 
-  attr_accessor :sprite, :x, :y, :walls, :boxes
+  attr_accessor :sprite, :x, :y, :walls, :boxes, :ends
 
   def initialize
     build
@@ -133,6 +133,12 @@ class Character
     end.any?
   end
 
+  def done?(objects, box)
+    objects.select do |object|
+      box.contains?(object.x, object.y)
+    end.any?
+  end
+
   def wall_collision?(x, y)
     x = self.sprite.x + x
     y = self.sprite.y + y
@@ -149,6 +155,9 @@ class Character
     else
       box.x = x
       box.y = y
+      if done?(ends, box)
+        box.play(animation: :done, loop: true)
+      end
       return true
     end
   end

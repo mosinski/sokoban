@@ -50,6 +50,14 @@ class Floor
               height: 63,
               time: 300
             }
+          ],
+          done: [
+            {
+              x: 257, y: 256,
+              width: 63,
+              height: 63,
+              time: 300
+            }
           ]
         }
       )
@@ -82,6 +90,7 @@ class Floor
     character.sprite.y = start['y']
     character.walls = walls
     character.boxes = boxes
+    character.ends = ends
     character.stop animation: :stand_down, loop: true
   end
 end
