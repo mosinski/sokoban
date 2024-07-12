@@ -1,7 +1,7 @@
 class Character
   DEFAULTS = { speed: 60 }.freeze
 
-  attr_accessor :sprite, :x, :y, :walls, :boxes, :ends
+  attr_accessor :sprite, :x, :y, :walls, :boxes, :ends, :moves, :pushes
 
   def initialize
     build
@@ -12,13 +12,14 @@ class Character
   end
 
   def walk(x: 0, y: 0)
-    x = x * DEFAULTS[:speed]
-    y = y * DEFAULTS[:speed]
+    x *= DEFAULTS[:speed]
+    y *= DEFAULTS[:speed]
 
-    unless wall_collision?(x, y) || box_collision?(x, y)
-      self.sprite.x += x
-      self.sprite.y += y
-    end
+    return if wall_collision?(x, y) || box_collision?(x, y)
+
+    self.moves += 1
+    self.sprite.x += x
+    self.sprite.y += y
   end
 
   def stop(args)
@@ -29,6 +30,8 @@ class Character
   private
 
   def build
+    self.moves = 0
+    self.pushes = 0
     self.sprite = Sprite.new(
       SPRITES_PATH,
       x: 0,
@@ -140,26 +143,26 @@ class Character
   end
 
   def wall_collision?(x, y)
-    x = self.sprite.x + x
-    y = self.sprite.y + y
+    x += self.sprite.x
+    y += self.sprite.y
 
     collision?(walls, x, y)
   end
 
   def box_moveable?(box, x, y)
-    x = box.x + x
-    y = box.y + y
+    x += box.x
+    y += box.y
 
-    if collision?(walls, x, y) || collision?(boxes, x, y)
-      return false
-    else
-      box.x = x
-      box.y = y
-      if done?(ends, box)
-        box.play(animation: :done, loop: true)
-      end
-      return true
-    end
+    return false if collision?(walls, x, y) || collision?(boxes, x, y)
+
+    box.x = x
+    box.y = y
+
+    self.pushes += 1
+
+    box.play(animation: :done, loop: true) if done?(ends, box)
+
+    return true
   end
 
   def box_collision?(x, y)

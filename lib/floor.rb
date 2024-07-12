@@ -1,5 +1,9 @@
+require './lib/box'
+require './lib/wall'
+require './lib/end'
+
 class Floor
-  attr_accessor :start, :ends, :boxes, :walls, :character
+  attr_accessor :start, :ends, :boxes, :walls, :character, :time
 
   def initialize(start:, ends:, boxes:, walls:)
     @start = start
@@ -7,6 +11,7 @@ class Floor
     @boxes = boxes
     @walls = walls
     @character = Character.new
+    @time = 0
 
     build
   end
@@ -15,74 +20,17 @@ class Floor
 
   def build
     self.walls = walls.map do |wall|
-      wall = Sprite.new(
-        SPRITES_PATH,
-        x: wall['x'],
-        y: wall['y'],
-        width: 59,
-        height: 59,
-        animations: {
-          show: [
-            {
-              x: 64, y: 0,
-              width: 59,
-              height: 59,
-              time: 300
-            }
-          ]
-        }
-      )
+      wall = Wall.new(wall['x'], wall['y'])
       wall.play(animation: :show, loop: true)
       wall
     end
     self.boxes = boxes.map do |box|
-      box = Sprite.new(
-        SPRITES_PATH,
-        x: box['x'],
-        y: box['y'],
-        width: 59,
-        height: 59,
-        animations: {
-          show: [
-            {
-              x: 192, y: 256,
-              width: 63,
-              height: 63,
-              time: 300
-            }
-          ],
-          done: [
-            {
-              x: 257, y: 256,
-              width: 63,
-              height: 63,
-              time: 300
-            }
-          ]
-        }
-      )
+      box = Box.new(box['x'], box['y'])
       box.play(animation: :show, loop: true)
       box
     end
     self.ends = ends.map do |e|
-      e = Sprite.new(
-        SPRITES_PATH,
-        x: e['x'],
-        y: e['y'],
-        z: -1,
-        width: 20,
-        height: 20,
-        animations: {
-          show: [
-            {
-              x: 0, y: 385,
-              width: 31,
-              height: 36,
-              time: 300
-            }
-          ]
-        }
-      )
+      e = End.new(e['x'], e['y'])
       e.play(animation: :show, loop: true)
       e
     end

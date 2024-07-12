@@ -1,35 +1,36 @@
 require 'yaml'
 require 'ruby2d'
-require './lib/character.rb'
-require './lib/floor.rb'
+require './lib/character'
+require './lib/floor'
 
 require 'active_support'
 require 'active_support/core_ext/hash/keys'
 
-FLOORS = './floors'
-
-SPRITES_PATH = Dir.pwd + '/assets/sprites.png'
+FLOORS = './floors'.freeze
+SPRITES_PATH = "#{Dir.pwd}/assets/sprites.png".freeze
 
 ##
 # Window
 ##
 
 set title: 'Sokoban',
-    width: 1024,
+    width: 1200,
     height: 768,
     resizable: false
 
-floor = nil
+floors = []
 
 Dir.glob(File.join(FLOORS, '**', '*')).each do |file|
   File.open(file) do |file|
-    settings = YAML.load(File.read(file).split.join(' ')).symbolize_keys
-    floor = Floor.new(**settings)
+    floors << YAML.load(File.read(file).split.join(' ')).symbolize_keys
   end
 end
 
+floor = Floor.new(**floors[1])
+
+score = Text.new('', x: 10, y: get(:height) - 30, color: 'red')
 character = floor.character
-keys_pressed = Array.new
+keys_pressed = []
 
 on :key_down do |event|
   if (keys_pressed - [event.key.to_sym]).empty?
@@ -68,6 +69,8 @@ on :key_up do |event|
 end
 
 update do
+  floor.time += 1
+  score.text = "01 | moves: #{floor.character.moves} | pushes: #{floor.character.pushes} | time: #{Time.at(floor.time / 60).utc.strftime("%M:%S:%L")}"
 end
 
 show
