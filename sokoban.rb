@@ -2,6 +2,7 @@ require 'yaml'
 require 'ruby2d'
 require './lib/character'
 require './lib/floor'
+require './lib/splash'
 
 require 'active_support'
 require 'active_support/core_ext/hash/keys'
@@ -30,6 +31,8 @@ floor = Floor.new(**floors[1])
 
 score = Text.new('', x: 10, y: get(:height) - 30, color: 'red')
 character = floor.character
+splash = Splash.new
+splash.play animation: :walk
 keys_pressed = []
 
 on :key_down do |event|
@@ -51,6 +54,8 @@ on :key_down do |event|
       character.play animation: :walk_down, loop: true
       character.walk y: 1
       keys_pressed << :down
+    when :space
+      splash.hide
     end
   end
 end
