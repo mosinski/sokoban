@@ -101,4 +101,12 @@ class Splash < Sprite
       ]
     }
   end
+
+  def key_down
+    hide
+  end
+
+  def key_up
+    hide
+  end
 end

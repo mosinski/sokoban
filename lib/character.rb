@@ -125,7 +125,7 @@ class Character
             width: 38, height: 61,
             time: 250
           }
-        ],
+        ]
       }
     )
   end
@@ -143,8 +143,8 @@ class Character
   end
 
   def wall_collision?(x, y)
-    x += self.sprite.x
-    y += self.sprite.y
+    x += sprite.x
+    y += sprite.y
 
     collision?(walls, x, y)
   end
@@ -160,14 +160,14 @@ class Character
 
     self.pushes += 1
 
-    box.play(animation: :done, loop: true) if done?(ends, box)
+    box.play(animation: done?(ends, box) ? :done : :show, loop: true)
 
-    return true
+    true
   end
 
   def box_collision?(x, y)
-    x1 = self.sprite.x + x
-    y1 = self.sprite.y + y
+    x1 = sprite.x + x
+    y1 = sprite.y + y
 
     boxes.select do |box|
       box.contains?(x1, y1) && !box_moveable?(box, x, y)
