@@ -1,6 +1,7 @@
 require 'yaml'
 require 'ruby2d'
 require './lib/character'
+require './lib/edit'
 require './lib/floor'
 require './lib/splash'
 require './lib/hallway'
@@ -35,6 +36,7 @@ hallway = Hallway.new
 
 score = Text.new('', x: 10, y: get(:height) - 30, color: 'red')
 splash = Splash.new
+edit = Edit.new
 splash.play animation: :walk
 keys_pressed = []
 
@@ -51,6 +53,8 @@ on :key_up do |event|
     splash.key_up
     state = :hallway
     hallway.show
+  when :edit
+    edit.key_up(keys_pressed, event, state)
   when :hallway
     hallway.key_up(keys_pressed, event, state)
   when :floor
@@ -62,7 +66,12 @@ update do
   case state
   when :hallway
     state = hallway.state
+  when :edit
+    hallway.hide
+    floor.remove
+    edit.marker_show
   when :floor
+    hallway.hide
     unless floor.done?
       floor.time += 1
       score.text = "#{format('%02d', level + 1)} | moves: #{floor.character.moves} | pushes: #{floor.character.pushes} | time: #{Time.at(floor.time / 60).utc.strftime("%M:%S:%L")}"

@@ -178,14 +178,11 @@ class Hallway
     character.x += 20
     character.play(animation: :press) do
       if (elevator = elevators[action])
-        @state = :floor
-
         elevator.play(animation: :open, loop: false) do
           elevator.z = -1
           character.x -= 20
+          @state = action == :play ? :floor : :edit
         end
-
-        hide
       else
         Window.close
       end

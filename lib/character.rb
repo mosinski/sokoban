@@ -17,6 +17,8 @@ class Character
 
     return if wall_collision?(x, y) || box_collision?(x, y)
 
+    step.play
+
     self.moves += 1
     self.sprite.x += x
     self.sprite.y += y
@@ -28,6 +30,14 @@ class Character
   end
 
   private
+
+  def step
+    @step = Sound.new('assets/sounds/footstep.wav')
+  end
+
+  def push
+    @step = Sound.new('assets/sounds/woodpush.wav')
+  end
 
   def build
     self.moves = 0
@@ -96,7 +106,7 @@ class Character
             x: 362, y: 187,
             width: 38, height: 61,
             time: 250
-          },
+          }
         ],
         stand_right: [
           {
@@ -159,6 +169,7 @@ class Character
     box.y = y
 
     self.pushes += 1
+    push.play
 
     box.play(animation: done?(ends, box) ? :done : :show, loop: true)
 
